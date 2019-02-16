@@ -3,13 +3,17 @@ package main
 import (
 	"github.com/camjw/stringsvc/stringsvc"
 	httptransport "github.com/go-kit/kit/transport/http"
-	"log"
+	"github.com/go-kit/kit/log"
 	"net/http"
 	"os"
 )
 
 func main() {
-	svc := stringsvc.StringService{}
+	logger := log.NewLogfmtLogger(os.Stderr)
+
+	var svc stringsvc.Service
+	svc = stringsvc.StringService{}
+  svc = stringsvc.LoggingMiddleware{logger, svc}
 
 	port := ":" + os.Getenv("TARGET_PORT")
 	if port == ":" {
@@ -30,5 +34,7 @@ func main() {
 
 	http.Handle("/uppercase", uppercaseHandler)
 	http.Handle("/count", countHandler)
-	log.Fatal(http.ListenAndServe(port, nil))
+
+	logger.Log("msg", "HTTP", "addr", port)
+	logger.Log("err", http.ListenAndServe(port, nil))
 }
