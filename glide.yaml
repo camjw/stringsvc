@@ -1,0 +1,13 @@
+package: github.com/camjw/stringsvc
+import:
+- package: github.com/go-kit/kit
+  subpackages:
+  - endpoint
+  - log
+  - metrics
+  - metrics/prometheus
+  - transport/http
+- package: github.com/prometheus/client_golang
+  subpackages:
+  - prometheus
+  - prometheus/promhttp
