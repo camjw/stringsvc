@@ -1,28 +1,27 @@
 package stringsvc
 
 import (
-  "context"
-  "net/http"
-  "encoding/json"
-  "github.com/go-kit/kit/endpoint"
+	"context"
+	"encoding/json"
+	"github.com/go-kit/kit/endpoint"
+	"net/http"
 )
 
-
 type uppercaseRequest struct {
-  S string `json:"s"`
+	S string `json:"s"`
 }
 
 type uppercaseResponse struct {
-  V   string `json:"v"`
-  Err string `json:"err,omitempty"` // errors don't JSON-marshal, so we use a string
+	V   string `json:"v"`
+	Err string `json:"err,omitempty"` // errors don't JSON-marshal, so we use a string
 }
 
 type countRequest struct {
-  S string `json:"s"`
+	S string `json:"s"`
 }
 
 type countResponse struct {
-  V int `json:"v"`
+	V int `json:"v"`
 }
 
 func MakeUppercaseEndpoint(svc StringService) endpoint.Endpoint {

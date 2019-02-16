@@ -1,8 +1,8 @@
 package stringsvc
 
 import (
-  "errors"
-  "strings"
+	"errors"
+	"strings"
 )
 
 type Service interface {

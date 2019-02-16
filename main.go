@@ -1,20 +1,20 @@
 package main
 
 import (
-  "os"
-  "log"
-  "net/http"
-  "github.com/camjw/stringsvc/stringsvc"
-  httptransport "github.com/go-kit/kit/transport/http"
+	"github.com/camjw/stringsvc/stringsvc"
+	httptransport "github.com/go-kit/kit/transport/http"
+	"log"
+	"net/http"
+	"os"
 )
 
 func main() {
 	svc := stringsvc.StringService{}
 
-  port := ":" + os.Getenv("TARGET_PORT")
-  if port == ":" {
-    port = ":8080"
-  }
+	port := ":" + os.Getenv("TARGET_PORT")
+	if port == ":" {
+		port = ":8080"
+	}
 
 	uppercaseHandler := httptransport.NewServer(
 		stringsvc.MakeUppercaseEndpoint(svc),
