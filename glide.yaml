@@ -2,12 +2,20 @@ package: github.com/camjw/stringsvc
 import:
 - package: github.com/go-kit/kit
   subpackages:
+  - circuitbreaker
   - endpoint
   - log
   - metrics
   - metrics/prometheus
+  - ratelimit
+  - sd
+  - sd/lb
   - transport/http
 - package: github.com/prometheus/client_golang
   subpackages:
   - prometheus
   - prometheus/promhttp
+- package: github.com/sony/gobreaker
+- package: golang.org/x/time
+  subpackages:
+  - rate

@@ -1,6 +1,12 @@
-hash: cb9e5475a603f785e001475178246c52d8d7dd0923677170ca729637a21f9135
-updated: 2019-02-16T21:11:09.7029872Z
+hash: e2fbc6d8523e6ef2e2f141069beaffc5e6c293bd360ef8d47ab95d8c85bc179e
+updated: 2019-02-17T13:44:43.2219383Z
 imports:
+- name: github.com/afex/hystrix-go
+  version: fa1af6a1f4f56e0e50d427fe901cd604d8c6fb8a
+  subpackages:
+  - hystrix
+  - hystrix/metric_collector
+  - hystrix/rolling
 - name: github.com/beorn7/perks
   version: 3a771d992973f24aa725d07868b467d1ddfceafb
   subpackages:
@@ -8,11 +14,15 @@ imports:
 - name: github.com/go-kit/kit
   version: 10f464fb11741e507cbb5201eb889c37dd51dbab
   subpackages:
+  - circuitbreaker
   - endpoint
   - log
   - metrics
   - metrics/internal/lv
   - metrics/prometheus
+  - ratelimit
+  - sd
+  - sd/lb
   - transport/http
 - name: github.com/go-logfmt/logfmt
   version: 07c9b44f60d7ffdfb7d8efe1ad539965737836dc
@@ -48,4 +58,14 @@ imports:
   - internal/util
   - nfs
   - xfs
+- name: github.com/sony/gobreaker
+  version: d928aaea92e15a2c8ab59efdfbb362844d8524e1
+- name: github.com/streadway/handy
+  version: d5acb3125c2a6654d2d691e6851674a645333da1
+  subpackages:
+  - breaker
+- name: golang.org/x/time
+  version: 85acf8d2951cb2a3bde7632f9ff273ef0379bcbd
+  subpackages:
+  - rate
 testImports: []
