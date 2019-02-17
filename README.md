@@ -34,6 +34,9 @@ The first two take a JSON of the form `{"s":"hello, world"}'` by a POST request 
 ```bash
 curl -X POST -d'{"s":"hello, world"}' localhost:8080/uppercase
 # {"v":"HELLO, WORLD"}
+
+curl -X POST -d'{"s":"hello, world"}' localhost:8080/count
+# {"v":"12"}
 ```
 
 The `/metrics` endpoint returns a load of statistics about the usage of the app since it was instantiated.
