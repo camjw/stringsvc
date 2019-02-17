@@ -24,3 +24,5 @@ func (StringService) Count(s string) int {
 }
 
 var ErrEmpty = errors.New("Empty string")
+
+type ServiceMiddleware func(Service) Service

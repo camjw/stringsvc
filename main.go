@@ -1,6 +1,8 @@
 package main
 
 import (
+	"context"
+	"flag"
 	"github.com/camjw/stringsvc/stringsvc"
 	"net/http"
 	"os"
@@ -12,7 +14,15 @@ import (
 )
 
 func main() {
-	logger := log.NewLogfmtLogger(os.Stderr)
+	var (
+		listen = flag.String("listen", ":8080", "HTTP listen address")
+		proxy  = flag.String("proxy", "", "Optional comma-separated list of URLs to proxy uppercase requests")
+	)
+	flag.Parse()
+
+	var logger log.Logger
+	logger = log.NewLogfmtLogger(os.Stderr)
+	logger = log.With(logger, "listen", *listen, "caller", log.DefaultCaller)
 
 	fieldKeys := []string{"method", "error"}
 	requestCount := kitprometheus.NewCounterFrom(stdprometheus.CounterOpts{
@@ -36,6 +46,7 @@ func main() {
 
 	var svc stringsvc.Service
 	svc = stringsvc.StringService{}
+	svc = stringsvc.ProxyingMiddleware(context.Background(), *proxy, logger)(svc)
 	svc = stringsvc.LoggingMiddleware{logger, svc}
   svc = stringsvc.InstrumentingMiddleware{requestCount, requestLatency, countResult, svc}
 

@@ -1,8 +1,10 @@
 package stringsvc
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
+	"io/ioutil"
 	"github.com/go-kit/kit/endpoint"
 	"net/http"
 )
@@ -13,7 +15,7 @@ type uppercaseRequest struct {
 
 type uppercaseResponse struct {
 	V   string `json:"v"`
-	Err string `json:"err,omitempty"` // errors don't JSON-marshal, so we use a string
+	Err string `json:"err,omitempty"`
 }
 
 type countRequest struct {
@@ -51,6 +53,14 @@ func DecodeUppercaseRequest(_ context.Context, r *http.Request) (interface{}, er
 	return request, nil
 }
 
+func decodeUppercaseResponse(_ context.Context, r *http.Response) (interface{}, error) {
+	var response uppercaseResponse
+	if err := json.NewDecoder(r.Body).Decode(&response); err != nil {
+		return nil, err
+	}
+	return response, nil
+}
+
 func DecodeCountRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	var request countRequest
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
@@ -61,4 +71,13 @@ func DecodeCountRequest(_ context.Context, r *http.Request) (interface{}, error)
 
 func EncodeResponse(_ context.Context, w http.ResponseWriter, response interface{}) error {
 	return json.NewEncoder(w).Encode(response)
+}
+
+func encodeRequest(_ context.Context, r *http.Request, request interface{}) error {
+	var buf bytes.Buffer
+	if err := json.NewEncoder(&buf).Encode(request); err != nil {
+		return err
+	}
+	r.Body = ioutil.NopCloser(&buf)
+	return nil
 }
